@@ -3,7 +3,7 @@ import { TrainsMap } from './TrainsMap';
 
 export const PositionList: Array<TrainsMap> = [
   {
-    imgBg: new ImageBitmap('common/images/ic_line1.png'),
+    imgBg: $r('app.media.ic_line1'),
     interval: 10,
     lineData: [
       { x: 318, y: 132 },
@@ -33,7 +33,7 @@ export const PositionList: Array<TrainsMap> = [
     ]
   },
   {
-    imgBg: new ImageBitmap('common/images/ic_line2.png'),
+    imgBg: $r('app.media.ic_line2'),
     interval: 17,
     lineData: [
       { x: 657, y: 394 },
@@ -99,7 +99,7 @@ export const PositionList: Array<TrainsMap> = [
     ]
   },
   {
-    imgBg: new ImageBitmap('common/images/ic_line3.png'),
+    imgBg: $r('app.media.ic_line3'),
     interval: 37,
     lineData: [
       { x: 248, y: 111 },

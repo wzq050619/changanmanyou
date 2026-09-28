@@ -10,7 +10,7 @@ export class Position{
 }
 @Observed
 export class TrainsMap{
-  imgBg:ImageBitmap=new ImageBitmap('common/images/ic_line1.png')
+  imgBg:Resource=$r('app.media.ic_line1')
   interval:number=0
   lineData:Array<Position> = []
 }
