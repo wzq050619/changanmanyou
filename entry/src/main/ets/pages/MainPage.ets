@@ -3,12 +3,22 @@ import {CommonConstants as Count } from "../common/constants/CommonConstants";
 import { Map } from '../view/MapComponent'
 import { Zones } from "../view/ZoneConmponent";
 import {Trains} from "../view/TrainsComponent";
+import { PersonalCenter } from "../view/PersonalCenter";
+import { DeviceScreen } from "../common/utils/DeviceScreen";
 
 
 
 @Entry
 @Component
 struct MainPage {
+  @State systemPadding: Padding = { top: 32, bottom: 0 }
+
+  // 标题和底部标签栏避开系统状态栏、手势导航区。
+  aboutToAppear(): void {
+    DeviceScreen.getSafeAreaPadding(this.getUIContext()).then((padding: Padding) => {
+      this.systemPadding = padding
+    })
+  }
 
   @State@Watch('onIndexChange') bottomTabIndex:number=0
   private controller:TabsController=new TabsController()
@@ -57,19 +67,20 @@ struct MainPage {
         }.tabBar(this.Tabbuilder(2,'Train'))
 
         TabContent(){
-          Text('个人信息')
-            .fontSize(16)
-            .textAlign(TextAlign.Center)
+          PersonalCenter()
         }.tabBar(this.Tabbuilder(3,'User'))
       }
       .width(Count.FULL_PERCENT)
       .height(Count.FULL_PERCENT)
       .vertical(false)
       .scrollable(false)
-      .barHeight(Count.BAR_HEIGHT)
+      .barHeight(56)
       .onChange((index:number)=>{
         this.bottomTabIndex=index
       })
     }.width(Count.FULL_PERCENT)
+      .height(Count.FULL_PERCENT)
+      .padding(this.systemPadding)
+      .backgroundColor($r('app.color.common_background_color'))
   }
 }
