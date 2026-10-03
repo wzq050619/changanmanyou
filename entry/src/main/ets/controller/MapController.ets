@@ -30,7 +30,7 @@ export class MapController{
         ratio=Const.MAP_ZOOM_RATIO
         this.pinchCount++
       }
-      //地图只允许放大四次，pinchCount记录当前累积的缩放次数
+      //放大次数由ZOOM_MAX_TIMES控制，pinchCount记录当前累积次数
       if ((this.pinchCount>Const.ZOOM_MAX_TIMES)) {
         //防止无限增大
         this.pinchCount=Const.ZOOM_MAX_TIMES
@@ -52,12 +52,13 @@ export class MapController{
     let minY=(1/this.mapMultiples()-1)*mapHeight
     this.leftTop=[minX,minY]
   }
-  //通过双击将整个地图放大1.1倍，和pinchcount公用一个限制（4次为最大）
+  //双击放大1.1倍，与双指缩放共用ZOOM_MAX_TIMES上限
   tapAction(callBack:Function):void{
     let isMaxTime:boolean=false
     if (++this.pinchCount>Const.ZOOM_MAX_TIMES) {
-      this.pinchCount>Const.ZOOM_MAX_TIMES
-      isMaxTime=true
+      this.pinchCount=Const.ZOOM_MAX_TIMES
+      //达到上限后保持计数和拖动边界，避免地标定位发生偏移。
+      return
     }
     //callback 在组件完成地图的缩放和地标的重算，并返回放大后左上角最远位置
     this.leftTop=callBack(isMaxTime)

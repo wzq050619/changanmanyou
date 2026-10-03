@@ -59,7 +59,7 @@ export struct Map{
           //地图高度默认为父组件的高度
           this.mapHeight=this.screenHeight
           //地图的宽度 是由地图原始的宽高比得来的
-          //地图的宽度=地图像素宽度2744/高度1826
+          //地图的宽度=地图像素宽度1536/高度1024×显示高度
           this.mapWidth=Const.MAP_WIDTH*this.mapHeight/Const.MAP_HEIGHT
           this.mapX=(this.screenMapWidth-this.mapWidth)/Const.DOUBLE_OR_HALF
           //默认屏幕显示在地图的中心
@@ -163,6 +163,13 @@ export struct Map{
             })
           )
       )
+      //固定显示地图署名，拖动或放大地图时保持可见。
+      Text('© OpenStreetMap contributors')
+        .fontSize(10)
+        .fontColor('#475569')
+        .backgroundColor('#EFFFFFFF')
+        .padding(4)
+        .position({x:8,y:8})
       //功能控制区-----搜索面板
       CustomPanel({
         screenMapWidth: $screenMapWidth,

@@ -222,7 +222,7 @@ export class CommonConstants {
   /**
    * Maximum number of magnifications.
    */
-  static readonly ZOOM_MAX_TIMES: number = 4;
+  static readonly ZOOM_MAX_TIMES: number = 20;
   /**
    * Coordinate dimension.
    */

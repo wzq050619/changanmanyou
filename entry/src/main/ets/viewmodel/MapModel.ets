@@ -22,88 +22,88 @@ class MapModel{
 let  mapModel=new MapModel()
 export default mapModel as MapModel
 
-//地表数据 图标  名称  经纬度  序号
+//景点图标、名称和真实经纬度；像素坐标与1536×1024新底图同步投影。
 
 export const PositionList:Array<PositionItem>=[
   {
     icon:$r('app.media.ic_landmark_bell_tower'),
     text:$r('app.string.bell_tower'),
     type:PositionType.BELL_TOWER,
-    lngLat:[{longitude:108.942000, latitude:34.261000}],
-    mapPositionX:344,
-    mapPositionY:344
+    lngLat:[{longitude:108.9423419, latitude:34.2610119}],
+    mapPositionX:309.58,
+    mapPositionY:674.52
   },
   {
     icon:$r('app.media.ic_landmark_city_wall'),
     text:$r('app.string.xian_city_wall'),
     type:PositionType.XIAN_CITY_WALL,
-    lngLat:[{longitude:108.942350, latitude:34.253139}],
-    mapPositionX:561,
-    mapPositionY:336
+    lngLat:[{longitude:108.9423226, latitude:34.2528}],
+    mapPositionX:309.52,
+    mapPositionY:701.85
   },
   {
     icon:$r('app.media.ic_landmark_drum_tower'),
     text:$r('app.string.drum_tower'),
     type:PositionType.DRUM_TOWER,
-    lngLat:[{longitude:108.938840, latitude:34.261760}],
-    mapPositionX:348,
-    mapPositionY:278
+    lngLat:[{longitude:108.9388419, latitude:34.2617601}],
+    mapPositionX:299.95,
+    mapPositionY:672.03
   },
   {
     icon:$r('app.media.ic_landmark_everbright_city'),
     text:$r('app.string.datang_everbright_city'),
     type:PositionType.DATANG_EVERBRIGHT_CITY,
-    lngLat:[{longitude:108.959300, latitude:34.211500}],
-    mapPositionX:392,
-    mapPositionY:782
+    lngLat:[{longitude:108.9594054, latitude:34.2163961}],
+    mapPositionX:356.5,
+    mapPositionY:822.95
   },
   {
     icon:$r('app.media.ic_landmark_giant_pagoda'),
     text:$r('app.string.giant_wild_goose_pagoda'),
     type:PositionType.GIANT_WILD_GOOSE_PAGODA,
-    lngLat:[{longitude:108.959354, latitude:34.219842}],
-    mapPositionX:409,
-    mapPositionY:673
+    lngLat:[{longitude:108.9594259, latitude:34.2197968}],
+    mapPositionX:356.56,
+    mapPositionY:811.63
   },
   {
     icon:$r('app.media.ic_landmark_huaqing_palace'),
     text:$r('app.string.huaqing_palace'),
     type:PositionType.HUAQING_PALACE,
-    lngLat:[{longitude:109.211500, latitude:34.363900}],
-    mapPositionX:1254,
-    mapPositionY:272
+    lngLat:[{longitude:109.2074268, latitude:34.3650509}],
+    mapPositionX:1038.6,
+    mapPositionY:328.11
   },
   {
     icon:$r('app.media.ic_landmark_shaanxi_museum'),
     text:$r('app.string.shaanxi_history_museum'),
     type:PositionType.SHAANXI_HISTORY_MUSEUM,
-    lngLat:[{longitude:108.950330, latitude:34.225760}],
-    mapPositionX:430,
-    mapPositionY:560
+    lngLat:[{longitude:108.9503285, latitude:34.2257568}],
+    mapPositionX:331.54,
+    mapPositionY:791.81
   },
   {
     icon:$r('app.media.ic_landmark_small_pagoda'),
     text:$r('app.string.small_wild_goose_pagoda'),
     type:PositionType.SMALL_WILD_GOOSE_PAGODA,
-    lngLat:[{longitude:108.937358, latitude:34.240803}],
-    mapPositionX:175,
-    mapPositionY:546
+    lngLat:[{longitude:108.9373484, latitude:34.2408075}],
+    mapPositionX:295.84,
+    mapPositionY:741.75
   },
   {
     icon:$r('app.media.ic_landmark_tang_paradise'),
     text:$r('app.string.tang_paradise'),
     type:PositionType.TANG_PARADISE,
-    lngLat:[{longitude:108.967480, latitude:34.216930}],
-    mapPositionX:642,
-    mapPositionY:715
+    lngLat:[{longitude:108.9703951, latitude:34.2145475}],
+    mapPositionX:386.73,
+    mapPositionY:829.09
   },
   {
     icon:$r('app.media.ic_landmark_terracotta_army'),
     text:$r('app.string.terracotta_army_museum'),
     type:PositionType.TERRACOTTA_ARMY_MUSEUM,
-    lngLat:[{longitude:109.275450, latitude:34.386120}],
-    mapPositionX:1367,
-    mapPositionY:102
+    lngLat:[{longitude:109.2750227, latitude:34.3872158}],
+    mapPositionX:1224.5,
+    mapPositionY:254.26
   },
 ]
 //文本信息
