@@ -2,7 +2,6 @@ import  ZonesItem from "../viewmodel/ZonesItem";
 import ZonesViewModel from "../viewmodel/ZonesViewModel";
 import { router } from "@kit.ArkUI";
 
-
 @Component
 export struct Zones{
   //防止重入，一次拖动只允许一次切换
@@ -120,6 +119,9 @@ export struct Zones{
             .padding({left:18,right:18,top:14,bottom:18})
             .alignItems(HorizontalAlign.Start)
             .backgroundColor('#66000000')
+            // 文字遮罩的底部圆角与图片保持一致，上边缘保持平直。
+            .borderRadius({ bottomLeft: 16, bottomRight: 16 })
+            .clip(true)
           }
           .width(index !==this.aheadIndex&&this.getImgCoeddicients(index)===0
             ?'66%':`${86-10*Math.abs(this.getImgCoeddicients(index))}%`)
@@ -173,7 +175,7 @@ export struct Zones{
 
     }.title('区域导览')
     .backgroundColor('#F1F3F5')
-    .titleMode(NavigationTitleMode.Full)
+    .titleMode(NavigationTitleMode.Mini)
     .hideBackButton(true)
   }
 }
