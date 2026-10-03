@@ -1,7 +1,7 @@
 import {TrainsLine,TrainsMap} from "../viewmodel/TrainsMap";
 import {PositionList} from "../viewmodel/TrainsMapModel";
 import {JSON} from "@kit.ArkTS";
-
+import TrainsTrack from "./TrainsTrackComponent";
 
 //全部路线图0 1 2
 //三条路线的运营状态 （路线名+运行状态+发车间隔）
@@ -9,6 +9,11 @@ import {JSON} from "@kit.ArkTS";
 @Component
 export struct Trains{
   @State trainsMapData:TrainsMap[]=PositionList
+
+  //三条线路的展开或者收缩效果
+  @StorageLink(`showLineOne`) showLineOne:boolean=false
+  @StorageLink(`showLineTwo`) showLineTwo:boolean=false
+  @StorageLink(`showLineThree`) showLineThree:boolean=false
   isOperating(line?:number):boolean{
     if (line === undefined) {
       return false
@@ -16,14 +21,14 @@ export struct Trains{
     let ret:boolean
     switch (line){
       case TrainsLine.LINE_ONE:
-        //运营时间为8-18：30
-        ret=this.checkTime('08:00','18:30')
+        //运行时段示例：09:00–21:00
+        ret=this.checkTime('09:00','21:00')
         break
       case TrainsLine.LINE_TWO:
-        ret=this.checkTime('08:00','19:00') &&!this.checkWeekend()
+        ret=this.checkTime('09:00','20:00') &&!this.checkWeekend()
         break
       case TrainsLine.LINE_THREE:
-        ret=(this.checkTime('08:00','18:00')&&!this.checkWeekend())||(this.checkTime('08:00','19:00')&&this.checkWeekend())
+        ret=(this.checkTime('08:00','18:00')&&!this.checkWeekend())||(this.checkTime('08:00','18:00')&&this.checkWeekend())
         break
       default :
       //不在显示的三条线内
@@ -46,7 +51,43 @@ export struct Trains{
     const weekday=date.getDay()
     return weekday===0||weekday===6
   }
-
+  changeShowMap(line?:number){
+    if (line===undefined) {
+      return
+    }
+    switch (line){
+      case TrainsLine.LINE_ONE:
+        this.showLineOne=!this.showLineOne
+        break;
+      case TrainsLine.LINE_TWO:
+        this.showLineTwo=!this.showLineTwo
+        break;
+      case TrainsLine.LINE_THREE:
+        this.showLineThree=!this.showLineThree
+        break;
+    }
+  }
+  //查询每条路线处于什么状态
+  fetchShowMap(line?:number):boolean{
+    if (line===undefined) {
+      return false
+    }
+    let ret:boolean
+    switch (line){
+      case TrainsLine.LINE_ONE:
+        ret=this.showLineOne
+        break
+      case TrainsLine.LINE_TWO:
+        ret=this.showLineTwo
+        break
+      case TrainsLine.LINE_THREE:
+        ret=this.showLineThree
+        break
+      default :
+        ret=false
+    }
+    return ret
+  }
   build() {
     Navigation(){
       Column({space:12}){
@@ -79,6 +120,21 @@ export struct Trains{
                 .justifyContent(FlexAlign.SpaceBetween)
                 .alignItems(VerticalAlign.Center)
 
+                .onClick(()=>{
+                  this.changeShowMap(index)
+                  this.trainsMapData=this.trainsMapData.slice(0)
+                })
+
+                if (this.fetchShowMap(index)&&this.isOperating(index)) {
+                  //第一个参数表示的当前线路是否展开
+                  //第二个参数表示是否在运营时间内
+
+                  //展开的具体内容
+                  TrainsTrack({
+                    trainsInfo:this.trainsMapData[index?index:0],
+                    trainLine:index?index:0
+                  })
+                }
               }
               .borderRadius(8)
               .padding({
@@ -96,8 +152,8 @@ export struct Trains{
       .padding({left:12,right:12})
       .height('100%')
     }
-    .title('园区火车')
-    .titleMode(NavigationTitleMode.Full)
+    .title('游玩路线')
+    .titleMode(NavigationTitleMode.Mini)
     .hideToolBar(true)
     .hideBackButton(true)
     .backgroundColor('#FFF1F3F5')
