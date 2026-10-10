@@ -5,6 +5,9 @@ import { Zones } from "../view/ZoneConmponent";
 import {Trains} from "../view/TrainsComponent";
 import { PersonalCenter } from "../view/PersonalCenter";
 import { DeviceScreen } from "../common/utils/DeviceScreen";
+import TravelAIComponent from '../ai/TravelAIComponent';
+import { TravelAIConfig } from '../ai/TravelAI';
+import { AI_API_KEY } from '../ai/ApiConfig.local';
 
 
 
@@ -12,9 +15,11 @@ import { DeviceScreen } from "../common/utils/DeviceScreen";
 @Component
 struct MainPage {
   @State systemPadding: Padding = { top: 32, bottom: 0 }
+  private aiConfig: TravelAIConfig = new TravelAIConfig();
 
   // 标题和底部标签栏避开系统状态栏、手势导航区。
   aboutToAppear(): void {
+    this.aiConfig.apiKey = AI_API_KEY;
     DeviceScreen.getSafeAreaPadding(this.getUIContext()).then((padding: Padding) => {
       this.systemPadding = padding
     })
@@ -29,12 +34,20 @@ struct MainPage {
 
   @Builder Tabbuilder(index:number,name:string){
     Column(){
-      Image(this.bottomTabIndex===index?BottomTabslist[index].inconSelected:BottomTabslist[index].icon)
-        .width(Count.ICON_SIZE)
-        .height(Count.ICON_SIZE)
-        .objectFit(ImageFit.Contain)
+      if (index === 3) {
+        Image(this.bottomTabIndex === index ? $r('app.media.ic_ai_tab_selected') : $r('app.media.ic_ai_tab'))
+          .width(Count.ICON_SIZE)
+          .height(Count.ICON_SIZE)
+          .objectFit(ImageFit.Contain)
+      } else {
+        Image(this.bottomTabIndex===index?
+          BottomTabslist[index === 4 ? 3 : index].inconSelected:BottomTabslist[index === 4 ? 3 : index].icon)
+          .width(Count.ICON_SIZE)
+          .height(Count.ICON_SIZE)
+          .objectFit(ImageFit.Contain)
+      }
 
-      Text(BottomTabslist[index].text)
+      Text(index === 3 ? 'AI' : BottomTabslist[index === 4 ? 3 : index].text)
         .fontSize(16)
         .opacity(Count.OPACITY)
         .fontColor(this.bottomTabIndex===index?$r('app.color.bottom_tabs_font_color_selected'):$r('app.color.bottom_tabs_font_color'))
@@ -67,8 +80,12 @@ struct MainPage {
         }.tabBar(this.Tabbuilder(2,'Train'))
 
         TabContent(){
+          TravelAIComponent({ config: this.aiConfig })
+        }.tabBar(this.Tabbuilder(3,'AI'))
+
+        TabContent(){
           PersonalCenter()
-        }.tabBar(this.Tabbuilder(3,'User'))
+        }.tabBar(this.Tabbuilder(4,'User'))
       }
       .width(Count.FULL_PERCENT)
       .height(Count.FULL_PERCENT)

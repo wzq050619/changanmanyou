@@ -165,6 +165,11 @@ struct ContentPage {
         }
         .height('100%')
 
+        Button('问问 AI')
+          .margin({ bottom: 33 })
+          .onClick(() => {
+            router.pushUrl({ url: 'pages/TravelAIPage', params: { scenicId: this.currentZonesId } })
+          })
         //底部返回顶部按钮
         Image($r('app.media.ic_up_icon'))
           .height(40)

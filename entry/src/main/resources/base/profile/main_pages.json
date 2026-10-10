@@ -3,6 +3,7 @@
     "pages/StartPage",
     "pages/MainPage",
     "pages/ContentPage",
-    "pages/AboutPage"
+    "pages/AboutPage",
+    "pages/TravelAIPage"
   ]
 }
