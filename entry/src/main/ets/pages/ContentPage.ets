@@ -165,7 +165,16 @@ struct ContentPage {
         }
         .height('100%')
 
-        Button('问问 AI')
+        Button({ type: ButtonType.Normal }) {
+          Row({ space: 8 }) {
+            Image($r('app.media.ic_ai_tab_selected')).width(20).height(20)
+              .objectFit(ImageFit.Contain)
+            Text('景点问询').fontSize(14).fontWeight(FontWeight.Medium)
+              .fontColor($r('app.color.bottom_tabs_font_color_selected'))
+          }
+        }
+          .height(40).padding({ left: 16, right: 16 }).borderRadius(20)
+          .backgroundColor($r('app.color.start_window_background'))
           .margin({ bottom: 33 })
           .onClick(() => {
             router.pushUrl({ url: 'pages/TravelAIPage', params: { scenicId: this.currentZonesId } })

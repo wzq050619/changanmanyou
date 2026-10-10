@@ -7,6 +7,7 @@ import { AIMessage, TravelAI, TravelAIConfig } from './TravelAI';
 @Component
 export default struct TravelAIComponent {
   config: TravelAIConfig = new TravelAIConfig();
+  @Prop showTitle: boolean = true;
   @Prop @Watch('resetConversation') scenicId: number = -1;
   @State private destination: string = '';
   @State private input: string = '';
@@ -68,8 +69,8 @@ export default struct TravelAIComponent {
     }
   }
 
-  build() {
-    Navigation() {
+  @Builder
+  ConversationContent() {
     Column({ space: 12 }) {
       Row() {
         Text(this.scenicId < 0 ? '按你的喜好，安排长安之旅' : '了解景点，也可以继续追问')
@@ -128,11 +129,20 @@ export default struct TravelAIComponent {
       Text('AI 建议仅供参考，开放及预约信息以景区官方公告为准。')
         .fontSize(12).fontColor($r('app.color.indicator_color'))
     }.width('100%').height('100%').padding({ left: 16, right: 16, bottom: 12 })
+  }
+
+  build() {
+    if (this.showTitle) {
+      Navigation() {
+        this.ConversationContent()
+      }
+      .width('100%').height('100%')
+      .title(this.scenicId < 0 ? 'AI 游览规划' : '景点智能问答')
+      .titleMode(NavigationTitleMode.Mini)
+      .hideBackButton(true).hideToolBar(true)
+      .backgroundColor($r('app.color.common_background_color'))
+    } else {
+      this.ConversationContent()
     }
-    .width('100%').height('100%')
-    .title(this.scenicId < 0 ? 'AI 游览规划' : '景点智能问答')
-    .titleMode(NavigationTitleMode.Mini)
-    .hideBackButton(true).hideToolBar(true)
-    .backgroundColor($r('app.color.common_background_color'))
   }
 }
