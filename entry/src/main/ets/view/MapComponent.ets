@@ -9,9 +9,12 @@ import MapModel from "../viewmodel/MapModel";
 import {PositionList} from "../viewmodel/MapModel";
 //地图控制类
 import MapController from "../controller/MapController";
+import CheckinPanel from '../checkin/CheckinPanel';
+import { readVisits } from '../checkin/CheckinRules';
 
 @Component
 export struct Map{
+  @StorageLink('checkinRecords') private checkinRecords: string = '[]';
   private panOption:PanGestureOptions=new PanGestureOptions({direction:PanDirection.All})
   @State screenMapWidth:number=0
   @State screenHeight:number=0
@@ -41,6 +44,34 @@ export struct Map{
                 y:item.positionY+Const.MAP_TEXT_OFFSET_Y
               })
           },(item:Location)=>JSON.stringify(item))
+          ForEach(PositionList, (spot: PositionItem) => {
+            if (readVisits(this.checkinRecords).some(record => record.scenicType === spot.type)) {
+              Stack({ alignContent: Alignment.TopEnd }) {
+                Image(spot.icon)
+                  .width(Const.MAP_LANDMARKS_SIZE)
+                  .height(Const.MAP_LANDMARKS_SIZE)
+                Text('✓')
+                  .fontSize(14)
+                  .fontWeight(FontWeight.Bold)
+                  .fontColor(Color.White)
+                  .width(20)
+                  .height(20)
+                  .textAlign(TextAlign.Center)
+                  .backgroundColor($r('app.color.bottom_tabs_font_color_selected'))
+                  .borderRadius(10)
+              }
+              .width(Const.MAP_LANDMARKS_SIZE)
+              .height(Const.MAP_LANDMARKS_SIZE)
+              .border({ width: 2, color: $r('app.color.bottom_tabs_font_color_selected') })
+              .borderRadius(8)
+              .backgroundColor($r('app.color.start_window_background'))
+              .offset({
+                x: spot.mapPositionX * this.mapWidth / Const.MAP_WIDTH - Const.MAP_LANDMARKS_SIZE / 2,
+                y: spot.mapPositionY * this.mapHeight / Const.MAP_HEIGHT - Const.MAP_LANDMARKS_SIZE
+              })
+              .accessibilityText('已到访景点')
+            }
+          }, (spot: PositionItem) => spot.type.toString())
         }
         .width(this.mapWidth)
         .height(this.mapHeight)
@@ -170,6 +201,12 @@ export struct Map{
         .backgroundColor('#EFFFFFFF')
         .padding(4)
         .position({x:8,y:8})
+      Row() {
+        CheckinPanel()
+      }
+      .width('100%')
+      .justifyContent(FlexAlign.Center)
+      .position({ x: 0, y: 42 })
       //功能控制区-----搜索面板
       CustomPanel({
         screenMapWidth: $screenMapWidth,
@@ -204,6 +241,7 @@ export struct Map{
 }
 @Component
 struct PositionGird{
+  @StorageLink('checkinRecords') private checkinRecords: string = '[]';
   positionItem:PositionItem=new PositionItem()
   build() {
     Column(){
@@ -213,6 +251,11 @@ struct PositionGird{
         .margin($r('app.float.navigation_panel_icon_margin'))
       Text(this.positionItem.text)
         .fontSize($r('app.float.navigation_icon_text'))
+      if (readVisits(this.checkinRecords).some(record => record.scenicType === this.positionItem.type)) {
+        Text('✓ 已到访')
+          .fontSize(10)
+          .fontColor($r('app.color.bottom_tabs_font_color_selected'))
+      }
     }
   }
 }

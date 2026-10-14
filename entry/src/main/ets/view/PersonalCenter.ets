@@ -1,6 +1,7 @@
 import router from '@ohos.router'
 import { preferences } from '@kit.ArkData'
 import { common } from '@kit.AbilityKit'
+import { readVisits } from '../checkin/CheckinRules';
 
 // 姓名、手机号编辑弹窗；保存成功后才关闭。
 @CustomDialog
@@ -84,6 +85,7 @@ struct AvatarPreviewDialog {
 // “我的”标签页：资料展示、姓名和手机号编辑、头像预览、关于页面入口。
 @Component
 export struct PersonalCenter {
+  @StorageLink('checkinRecords') private checkinRecords: string = '[]';
   // 行高随内容区高度调整；保持可读字号，小屏仍允许滚动。
   @State rowHeight: number = 36
   @State userName: string = 'P13 花钱小王子'
@@ -214,6 +216,18 @@ export struct PersonalCenter {
             .layoutWeight(1).alignItems(HorizontalAlign.Start)
           }
           .width('100%').padding({ top: 4, bottom: 4 })
+
+          Column() {
+            this.CardTitle('游览足迹', $r('app.media.profile_calendar'))
+            this.InfoRow('已到访景点', `${readVisits(this.checkinRecords).length}/10`,
+              $r('app.media.profile_calendar'), () => {
+                router.pushUrl({ url: 'pages/FootprintsPage' });
+              }, true, true)
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, bottom: 4 })
+          .backgroundColor($r('app.color.start_window_background'))
+          .borderRadius(16)
 
           // 基本信息：姓名和手机号可编辑，头像预览保留在顶部，入职时间统一展示在企业卡片。
           Column() {

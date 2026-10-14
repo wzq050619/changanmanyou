@@ -8,15 +8,22 @@ import StyleListItem from "../view/StyleListItem";
 import {Animation} from "../common/utils/Animation";
 import {AnimationItem} from "../viewmodel/AnimationItem";
 import {DeviceScreen} from "../common/utils/DeviceScreen";
+import { readVisits, scenicTypeForId } from '../checkin/CheckinRules';
 
 @Entry
 @Component
 struct ContentPage {
+  @StorageLink('checkinRecords') private checkinRecords: string = '[]';
   @State zoneList: ZonesItem[] = zoneViewModel.getZonesList()
   @Provide('contentData') contentData: ZonesItem = zoneViewModel.getZonesList()[0]
   @State currentZonesId: number = 0
   @Provide animationItem: AnimationItem = new AnimationItem()
   @State isReachStart: boolean = false
+
+  private visitLabel(): string {
+    const record = readVisits(this.checkinRecords).find(item => item.scenicType === scenicTypeForId(this.currentZonesId));
+    return record ? `✓ 已到访 · ${new Date(record.visitedAt).toLocaleString()}` : '未到访 · 在地图开启自动打卡';
+  }
 
   //是否已经回到顶部
 
@@ -165,6 +172,13 @@ struct ContentPage {
         }
         .height('100%')
 
+        Text(this.visitLabel())
+          .fontSize(12)
+          .fontColor($r('app.color.bottom_tabs_font_color_selected'))
+          .padding(10)
+          .borderRadius(16)
+          .backgroundColor($r('app.color.start_window_background'))
+          .margin({ bottom: 82 })
         Button({ type: ButtonType.Normal }) {
           Row({ space: 8 }) {
             Image($r('app.media.ic_ai_tab_selected')).width(20).height(20)

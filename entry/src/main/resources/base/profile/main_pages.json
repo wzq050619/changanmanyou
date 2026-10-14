@@ -4,6 +4,7 @@
     "pages/MainPage",
     "pages/ContentPage",
     "pages/AboutPage",
-    "pages/TravelAIPage"
+    "pages/TravelAIPage",
+    "pages/FootprintsPage"
   ]
 }

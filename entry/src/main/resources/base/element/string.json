@@ -1,5 +1,6 @@
 {
   "string": [
+    { "name": "checkin_location_reason", "value": "用于在应用前台判断您是否到达景点，并自动记录游览足迹" },
     {
       "name": "module_desc",
       "value": "module description"
